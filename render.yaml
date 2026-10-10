@@ -1,0 +1,24 @@
+# نشر على Render (نفس نمط مشروع 3BRO): خدمة واحدة تقدّم الواجهة والـ API معاً.
+# الخطوات في README (قسم "النشر").
+services:
+  - type: web
+    name: treading
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      # يُدخل يدوياً في لوحة Render (لا يُحفظ في git)
+      - key: MONGODB_URI
+        sync: false
+      # يولّده Render عشوائياً؛ تقرأه من Environment وتدخله مرة في الصفحة
+      - key: API_TOKEN
+        generateValue: true
+      - key: HOST
+        value: 0.0.0.0
+      - key: MONGODB_DB
+        value: treading
+      - key: NODE_VERSION
+        value: "22"
