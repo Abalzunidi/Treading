@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "node server/index.js",
-    "test": "node --test"
+    "test": "node --test",
+    "build:single": "node scripts/build-single.mjs"
   },
   "engines": {
     "node": ">=20"

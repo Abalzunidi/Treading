@@ -8,3 +8,4 @@ trade_journal.csv
 trade_journal.js
 SwingJournal.csv
 .DS_Store
+dist/

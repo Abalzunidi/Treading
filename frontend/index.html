@@ -3,78 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دفتر التداول — Treading</title>
+<meta name="color-scheme" content="dark">
+<title>دفتر التداول</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<div class="wrap">
 
-<header>
-  <div class="brand">
-    <div class="mark">KB</div>
-    <div>
-      <h1>دفتر التداول — Trading Journal</h1>
-      <p id="subtitle">كل صفقات حسابك — متزامن تلقائياً مع مؤشر المحلل</p>
+  <header class="top">
+    <div class="top-title">
+      <h1>دفتر التداول</h1>
+      <p class="status"><i id="statusDot" class="dot"></i><span id="statusText">جارٍ الاتصال…</span></p>
     </div>
-  </div>
-  <div class="status-row">
-    <div class="status-pill"><span id="statusDot" class="dot"></span><span id="statusText">جارٍ الاتصال…</span></div>
-    <button class="btn-ghost" id="manualBtn">اختيار ملف يدوياً</button>
-    <button class="btn-gold" id="refreshBtn">تحديث الآن</button>
-  </div>
-</header>
+    <div class="actions">
+      <button class="btn ghost" id="manualBtn" type="button">فتح ملف CSV</button>
+      <button class="btn solid" id="refreshBtn" type="button">تحديث</button>
+    </div>
+  </header>
 
-<div class="hint" id="hintBox">
-  الصفحة تقرأ صفقاتك تلقائياً: من <b>قاعدة البيانات</b> إذا فتحتها عبر الخادم (<code class="ltr" dir="ltr">http://localhost:3000</code>)،
-  أو مباشرة من ملف المؤشر <code class="ltr" dir="ltr">trade_journal.js</code> إذا فتحتها من القرص.
-  إن ظهرت رسالة "بانتظار البيانات"، تأكد أن مؤشر <b>GoldMarketAnalyzer</b> شغّال على الشارت وأن
-  <code class="ltr" dir="ltr">InpJournalExport</code> مفعّل، ثم اضغط <b>"تحديث الآن"</b>.
+  <p class="hint" id="hintBox">
+    تُقرأ الصفقات تلقائياً من قاعدة البيانات عند فتح الصفحة عبر الخادم، أو من ملف المؤشر عند فتحها من القرص.
+    لو ما ظهر شيء: شغّل مؤشر <b>GoldMarketAnalyzer</b> على الشارت وفعّل <span class="ltr">InpJournalExport</span>، ثم اضغط «تحديث».
+  </p>
+
+  <section class="hero" aria-label="الحالة الآن">
+    <div class="hero-open" id="openZone"></div>
+    <div class="hero-read" id="readingZone"></div>
+  </section>
+
+  <section class="totals" id="totalsZone" aria-label="مجموع الأرباح والخسائر"></section>
+
+  <nav class="symbols" id="symbolBar" aria-label="تصفية حسب الرمز"></nav>
+
+  <section class="path" aria-labelledby="pathTitle">
+    <div class="sec-head">
+      <h2 id="pathTitle">مسار الحساب</h2>
+      <p class="readout" id="chartReadout">مرّر على الرسم لرؤية كل صفقة</p>
+    </div>
+    <div id="chartBox" class="chart-box"></div>
+    <p class="note">كل عمود صفقة مغلقة: فوق الخط ربح وتحته خسارة، والارتفاع بحسب المبلغ. الخط هو مجموع الأرباح التراكمي.</p>
+  </section>
+
+  <section class="by-symbol" aria-labelledby="symTitle" id="symbolSection">
+    <div class="sec-head"><h2 id="symTitle">النتيجة حسب الرمز</h2></div>
+    <div id="symbolRows"></div>
+  </section>
+
+  <section class="list" aria-labelledby="listTitle">
+    <div class="sec-head">
+      <h2 id="listTitle">الصفقات المغلقة <span class="count" id="histCount">0</span></h2>
+      <p class="list-total" id="listTotal"></p>
+      <div class="seg" id="resultSeg" role="group" aria-label="تصفية النتيجة"></div>
+    </div>
+    <div class="rows" id="rows"></div>
+    <p class="empty" id="histEmpty" hidden>لا توجد صفقات مغلقة بعد. أول صفقة تغلقها ستظهر هنا.</p>
+    <button class="btn ghost more" id="moreBtn" type="button" hidden>عرض كل الصفقات</button>
+  </section>
+
+  <footer>بياناتك تبقى على جهازك أو في قاعدة بياناتك أنت. هذه الصفحة للمتابعة فقط وليست توصية.</footer>
 </div>
-
-<section class="cards">
-  <div class="card"><div class="label">صافي الربح/الخسارة (الكل)</div><div class="value" id="cardNet">0.00</div><div class="sub" id="cardNetSub">—</div></div>
-  <div class="card"><div class="label">ربح/خسارة اليوم</div><div class="value" id="cardToday">0.00</div><div class="sub" id="cardTodaySub">—</div></div>
-  <div class="card"><div class="label">نسبة الفوز</div><div class="value" id="cardWinRate">—</div><div class="sub" id="cardWinSub">—</div></div>
-  <div class="card"><div class="label">إجمالي الصفقات</div><div class="value" id="cardTotal">0</div><div class="sub" id="cardTotalSub">—</div></div>
-  <div class="card"><div class="label">صفقات مفتوحة الآن</div><div class="value" id="cardOpen">0</div><div class="sub" id="cardOpenSub">—</div></div>
-</section>
-
-<section class="panel">
-  <h2>منحنى الأداء التراكمي <span class="tag">Equity Curve</span></h2>
-  <div id="chartWrap">
-    <canvas id="chart"></canvas>
-    <div class="chart-empty" id="chartEmpty">لا توجد بيانات بعد</div>
-  </div>
-</section>
-
-<section class="panel" id="openPanel" style="display:none;">
-  <h2>الصفقات المفتوحة الآن <span class="tag" id="openCountTag">0</span></h2>
-  <div class="scrollx">
-  <table>
-    <thead><tr>
-      <th>الرمز</th><th>النوع</th><th>الحجم</th><th>سعر الدخول</th><th>وقت الدخول</th>
-      <th>وقف الخسارة</th><th>الهدف</th><th>الربح الحالي</th>
-    </tr></thead>
-    <tbody id="openBody"></tbody>
-  </table>
-  </div>
-</section>
-
-<section class="panel">
-  <h2>سجل الصفقات <span class="tag" id="histCountTag">0</span></h2>
-  <div class="tabs" id="symbolTabs"></div>
-  <div class="scrollx">
-  <table>
-    <thead><tr>
-      <th>الرمز</th><th>النوع</th><th>الحالة</th><th>الحجم</th>
-      <th>سعر الدخول</th><th>سعر الخروج</th><th>وقت الإغلاق</th><th>الصافي</th>
-    </tr></thead>
-    <tbody id="histBody"></tbody>
-  </table>
-  <div class="empty-state" id="histEmpty" style="display:none;">لا توجد صفقات مسجلة بعد — بمجرد أن تفتح أول صفقة ستظهر هنا تلقائياً.</div>
-  </div>
-</section>
-
-<footer>دفتر تداول شخصي — بياناتك تبقى على جهازك أو في قاعدة بياناتك أنت</footer>
 
 <script src="js/data.js"></script>
 <script src="js/render.js"></script>
