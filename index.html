@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>دفتر التداول</title>
+<meta name="theme-color" content="#0b1216">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="shortcut icon" href="img/favicon.ico">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <img class="logo" src="img/logo.svg" alt="" width="46" height="46">
+      <div class="top-title">
+        <h1>دفتر التداول</h1>
+        <p class="status"><i id="statusDot" class="dot"></i><span id="statusText">جارٍ الاتصال…</span></p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn ghost" id="manualBtn" type="button">فتح ملف CSV</button>
+      <button class="btn solid" id="refreshBtn" type="button">تحديث</button>
+    </div>
+  </header>
+
+  <p class="hint" id="hintBox">
+    تُقرأ الصفقات تلقائياً من قاعدة البيانات عند فتح الصفحة عبر الخادم، أو من ملف المؤشر عند فتحها من القرص.
+    لو ما ظهر شيء: شغّل مؤشر <b>GoldMarketAnalyzer</b> على الشارت وفعّل <span class="ltr">InpJournalExport</span>، ثم اضغط «تحديث».
+  </p>
+
+  <section class="hero" aria-label="الحالة الآن">
+    <div class="hero-open" id="openZone"></div>
+    <div class="hero-read" id="readingZone"></div>
+  </section>
+
+  <section class="totals" id="totalsZone" aria-label="مجموع الأرباح والخسائر"></section>
+
+  <nav class="symbols" id="symbolBar" aria-label="تصفية حسب الرمز"></nav>
+
+  <section class="path" aria-labelledby="pathTitle">
+    <div class="sec-head">
+      <h2 id="pathTitle">مسار الحساب</h2>
+      <p class="readout" id="chartReadout">مرّر على الرسم لرؤية كل صفقة</p>
+    </div>
+    <div id="chartBox" class="chart-box"></div>
+    <p class="note">كل عمود صفقة مغلقة: فوق الخط ربح وتحته خسارة، والارتفاع بحسب المبلغ. الخط هو مجموع الأرباح التراكمي.</p>
+  </section>
+
+  <section class="by-symbol" aria-labelledby="symTitle" id="symbolSection">
+    <div class="sec-head"><h2 id="symTitle">النتيجة حسب الرمز</h2></div>
+    <div id="symbolRows"></div>
+  </section>
+
+  <section class="list" aria-labelledby="listTitle">
+    <div class="sec-head">
+      <h2 id="listTitle">الصفقات المغلقة <span class="count" id="histCount">0</span></h2>
+      <p class="list-total" id="listTotal"></p>
+      <div class="seg" id="resultSeg" role="group" aria-label="تصفية النتيجة"></div>
+    </div>
+    <div class="rows" id="rows"></div>
+    <p class="empty" id="histEmpty" hidden>لا توجد صفقات مغلقة بعد. أول صفقة تغلقها ستظهر هنا.</p>
+    <button class="btn ghost more" id="moreBtn" type="button" hidden>عرض كل الصفقات</button>
+  </section>
+
+  <footer>بياناتك تبقى على جهازك أو في قاعدة بياناتك أنت. هذه الصفحة للمتابعة فقط وليست توصية.</footer>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/render.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

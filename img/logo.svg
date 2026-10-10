@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Treading">
+  <rect width="64" height="64" rx="14" fill="#0b1216"/>
+  <rect x=".75" y=".75" width="62.5" height="62.5" rx="13.25" fill="none" stroke="#1f313a" stroke-width="1.5"/>
+  <line x1="8" y1="40" x2="56" y2="40" stroke="#e8efec" stroke-width="2" stroke-linecap="round" opacity=".9"/>
+  <g>
+    <rect x="10"   y="33" width="6" height="7"  rx="1.5" fill="#4fd1a1"/>
+    <rect x="19.5" y="28" width="6" height="12" rx="1.5" fill="#4fd1a1"/>
+    <rect x="29"   y="40" width="6" height="9"  rx="1.5" fill="#ff7b6b"/>
+    <rect x="38.5" y="21" width="6" height="19" rx="1.5" fill="#4fd1a1"/>
+    <rect x="48"   y="13" width="6" height="27" rx="1.5" fill="#4fd1a1"/>
+  </g>
+</svg>
