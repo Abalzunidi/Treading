@@ -71,3 +71,15 @@ npm test
 5. **حتى تتحدّث الصفقات:** شغّل `npm start` على جهاز المنصة (يقرأ ملف MT5 ويرفعه إلى Atlas). السحابة تقرأ من Atlas فقط.
 
 > الخطة المجانية في Render تنام بعد دقائق من عدم الاستخدام؛ أول فتح بعد النوم يأخذ نحو نصف دقيقة.
+
+### نشر الواجهة على GitHub Pages
+
+الواجهة (مجلد `frontend/`) تُنشر على `https://abalzunidi.github.io/Treading/` من فرع `gh-pages`:
+
+```bash
+npm run deploy:pages                              # بدون خادم: الصفحة تعمل وتقبل ملف CSV يدوياً
+API_BASE=https://treading.onrender.com npm run deploy:pages   # لتقرأ الصفقات من خادم Render
+```
+
+> انتظر انتهاء النشر السابق (تبويب Actions) قبل نشر جديد، وإلا يفشل النشر الثاني بسبب تعارض.
+> لو فعّلت صلاحية `workflow` لـ `gh` يمكن استبدال هذا بسير عمل Actions تلقائي.
