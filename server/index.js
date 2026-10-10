@@ -10,6 +10,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT) || 3000;
 const host = process.env.HOST || '127.0.0.1';
 const token = process.env.API_TOKEN || '';
+const corsOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
 
 const loopback = ['127.0.0.1', 'localhost', '::1'].includes(host);
 if (!loopback && !token) {
@@ -24,7 +25,7 @@ try {
   await repo.init();
   stopImporter = startImporter({ repo, file: defaultJournalPath() });
 
-  const app = createApp({ repo, token, frontendDir: path.join(here, '..', 'frontend') });
+  const app = createApp({ repo, token, corsOrigins, frontendDir: path.join(here, '..', 'frontend') });
   const server = app.listen(port, host, () => console.log(`http://${host}:${port}`));
 
   const shutdown = async () => {

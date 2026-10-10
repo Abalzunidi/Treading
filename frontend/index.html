@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <title>دفتر التداول</title>
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
@@ -14,9 +16,12 @@
 <div class="wrap">
 
   <header class="top">
-    <div class="top-title">
-      <h1>دفتر التداول</h1>
-      <p class="status"><i id="statusDot" class="dot"></i><span id="statusText">جارٍ الاتصال…</span></p>
+    <div class="brand">
+      <img class="logo" src="img/logo.svg" alt="" width="46" height="46">
+      <div class="top-title">
+        <h1>دفتر التداول</h1>
+        <p class="status"><i id="statusDot" class="dot"></i><span id="statusText">جارٍ الاتصال…</span></p>
+      </div>
     </div>
     <div class="actions">
       <button class="btn ghost" id="manualBtn" type="button">فتح ملف CSV</button>
@@ -66,6 +71,7 @@
   <footer>بياناتك تبقى على جهازك أو في قاعدة بياناتك أنت. هذه الصفحة للمتابعة فقط وليست توصية.</footer>
 </div>
 
+<script src="js/config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/render.js"></script>
 <script src="js/main.js"></script>

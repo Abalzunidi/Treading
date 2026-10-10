@@ -22,3 +22,6 @@ services:
         value: treading
       - key: NODE_VERSION
         value: "22"
+      # يسمح لصفحة GitHub Pages بقراءة الـ API
+      - key: CORS_ORIGIN
+        value: https://abalzunidi.github.io

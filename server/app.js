@@ -4,9 +4,22 @@ import { parseCsv } from './csv.js';
 
 const sha = (s) => crypto.createHash('sha256').update(String(s)).digest();
 
-export function createApp({ repo, token = '', frontendDir }) {
+export function createApp({ repo, token = '', frontendDir, corsOrigins = [] }) {
   const app = express();
   app.disable('x-powered-by');
+
+  // CORS لواجهة منشورة على نطاق آخر (مثل GitHub Pages). فقط الأصول المذكورة صراحةً.
+  app.use((req, res, next) => {
+    const origin = req.get('origin');
+    if (origin && corsOrigins.includes(origin)) {
+      res.set('Access-Control-Allow-Origin', origin);
+      res.set('Vary', 'Origin');
+      res.set('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+      res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      if (req.method === 'OPTIONS') return res.sendStatus(204);
+    }
+    next();
+  });
   app.use(express.json({ limit: '5mb' }));
   app.use(express.text({ type: ['text/csv', 'text/plain'], limit: '5mb' }));
 

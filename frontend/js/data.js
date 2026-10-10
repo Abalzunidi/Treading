@@ -10,7 +10,8 @@
   const LOAD_TIMEOUT_MS = 2500;
   const TOKEN_KEY = "gtj_api_token";
 
-  GTJ.isServed = location.protocol === "http:" || location.protocol === "https:";
+  const API_BASE = ((window.GTJ_CONFIG && window.GTJ_CONFIG.apiBase) || "").replace(/\/+$/, "");
+  GTJ.isServed = API_BASE !== "" || location.protocol === "http:" || location.protocol === "https:";
   GTJ.pollMs = GTJ.isServed ? 10000 : 3000;
 
   // ---------- CSV ----------
@@ -80,13 +81,13 @@
     const headers = {};
     const token = localStorage.getItem(TOKEN_KEY);
     if(token) headers["Authorization"] = "Bearer " + token;
-    let res = await fetch("/api/trades", { headers, cache: "no-store" });
+    let res = await fetch(API_BASE + "/api/trades", { headers, cache: "no-store" });
     if(res.status === 401){
       const entered = prompt("أدخل رمز الدخول (API_TOKEN) المحدد في ملف .env للخادم:");
       if(!entered) throw new Error("unauthorized");
       localStorage.setItem(TOKEN_KEY, entered.trim());
       headers["Authorization"] = "Bearer " + entered.trim();
-      res = await fetch("/api/trades", { headers, cache: "no-store" });
+      res = await fetch(API_BASE + "/api/trades", { headers, cache: "no-store" });
     }
     if(!res.ok) throw new Error("api-" + res.status);
     const rows = await res.json();

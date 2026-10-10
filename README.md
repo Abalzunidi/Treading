@@ -1,3 +1,5 @@
+<p align="center"><img src="frontend/img/logo-512.png" alt="Treading" width="120"></p>
+
 # Treading — دفتر التداول
 
 واجهة + خادم صغير + قاعدة MongoDB لعرض صفقات حساب MetaTrader 5 (مفتوحة ومغلقة، منحنى أداء، نسبة فوز).

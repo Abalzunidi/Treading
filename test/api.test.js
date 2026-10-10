@@ -72,3 +72,18 @@ test('sync بدون نص يرجع 400', async () => {
 test('parseCsv يعمل على بيانات المثال', () => {
   assert.equal(parseCsv([HEADER, OPEN, CLOSED].join('\n')).length, 2);
 });
+
+test('CORS: يسمح فقط بالأصول المحددة ويجيب على preflight', async () => {
+  const app = createApp({ repo: memoryRepo(), token: 'secret', corsOrigins: ['https://abalzunidi.github.io'] });
+  await withServer(app, async (base) => {
+    const ok = await fetch(`${base}/api/trades`, {
+      method: 'OPTIONS',
+      headers: { Origin: 'https://abalzunidi.github.io', 'Access-Control-Request-Method': 'GET' },
+    });
+    assert.equal(ok.status, 204);
+    assert.equal(ok.headers.get('access-control-allow-origin'), 'https://abalzunidi.github.io');
+
+    const bad = await fetch(`${base}/api/trades`, { headers: { Origin: 'https://evil.example', Authorization: 'Bearer secret' } });
+    assert.equal(bad.headers.get('access-control-allow-origin'), null);
+  });
+});
