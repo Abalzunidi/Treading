@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const repo = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const git = (args, opts = {}) =>
-  execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8', ...opts }).trim();
+  (execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8', ...opts }) || '').trim();
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'treading-pages-'));
 fs.cpSync(path.join(repo, 'frontend'), tmp, { recursive: true });

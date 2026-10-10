@@ -11,7 +11,8 @@ html = html.replace(/<link rel="stylesheet" href="(css\/[^"]+)">/g, (_, p) => `<
 html = html.replace(/<script src="(js\/[^"]+)"><\/script>/g, (_, p) => `<script>\n${read(p)}\n</script>`);
 
 // الصور والأيقونات تُدمج كـ data URI لتعمل الصفحة كملف واحد
-const mime = { ".svg": "image/svg+xml", ".png": "image/png" };
+const mime = { ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon" };
+html = html.replace(/<link rel="manifest"[^>]*>\n?/g, "");
 html = html.replace(/(href|src)="(img\/[^"]+)"/g, (_, attr, p) => {
   const buf = fs.readFileSync(path.join(root, p));
   return `${attr}="data:${mime[path.extname(p)]};base64,${buf.toString("base64")}"`;
