@@ -1,6 +1,15 @@
+import dns from 'node:dns';
 import { MongoClient } from 'mongodb';
 
 let client = null;
+
+// بعض الشبكات/الراوترات ترفض استعلام SRV الذي يحتاجه mongodb+srv (الخطأ: querySrv ECONNREFUSED).
+// نستخدم DNS عام بدلاً منها. عطّله بـ MONGODB_DNS=system في .env إن لم تحتجه.
+function useReliableDns(env) {
+  if (env.MONGODB_DNS === 'system') return;
+  dns.setServers((env.MONGODB_DNS || '8.8.8.8,1.1.1.1').split(',').map((s) => s.trim()));
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 // يبني رابط الاتصال من الحقول (مع ترميز كلمة السر) أو من MONGODB_URI الجاهز.
 export function buildMongoUri(env = process.env) {
@@ -17,6 +26,7 @@ export async function connectToMongoDB(env = process.env) {
   if (uri.includes('<db_password>')) {
     throw new Error('استبدل <db_password> بكلمة السر الحقيقية في .env');
   }
+  useReliableDns(env);
   client = new MongoClient(uri);
   await client.connect();
   const db = client.db(env.MONGODB_DB || 'treading');
