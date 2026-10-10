@@ -1,0 +1,19 @@
+{
+  "name": "treading",
+  "version": "1.0.0",
+  "description": "دفتر تداول: واجهة + خادم + MongoDB لصفقات MetaTrader 5",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
+  }
+}

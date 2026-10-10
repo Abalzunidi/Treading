@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+# بيانات الصفقات الحقيقية لا تُرفع
+trade_journal.csv
+trade_journal.js
+SwingJournal.csv
+.DS_Store
